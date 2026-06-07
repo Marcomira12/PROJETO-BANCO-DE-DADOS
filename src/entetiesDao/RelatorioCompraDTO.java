@@ -70,8 +70,8 @@ public class RelatorioCompraDTO {
 	}
 	@Override
 	public String toString() {
-		return "Relatorio de Compra -> Fornecedor : " + nomeFornecedor + " | valor do Item : R$" + valorItem
+		return "Relatorio de Compra ->"+ " ID da Nota : " + idNota +" | Fornecedor : " + nomeFornecedor + " | valor do Item : R$" + valorItem
 				+ " | quantidade de Produto Comprado : " + quantidadeProdutoComprado +" | ID Produto : "+idProduto+ " | nome do Produto : " + nomeProduto
-				+ " | ID da Nota : " + idNota + " | Status da Compra : " + status +" | Data Compra : " +data;
+				+ " | Status da Compra : " + status +" | Data Compra : " +data;
 	}
 }

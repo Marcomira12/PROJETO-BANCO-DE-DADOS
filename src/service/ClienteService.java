@@ -1,18 +1,24 @@
-package service;
+	package service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import model.Cliente;
+import reflexao.ClasseTipo;
+import reflexao.Comando;
 import repository.RepositoryBancoCliente;
-
+@ClasseTipo(
+		descricao = "Cliente",
+		order = 2,
+		classe = RepositoryBancoCliente.class
+		)
 public class ClienteService {
 	private RepositoryBancoCliente banco;
 
 	public ClienteService(RepositoryBancoCliente banco) {
 		this.banco = banco;
 	}
-
+	@Comando(descricao = "Adicionar Cliente",order = 1)
 	public Cliente salvar(Cliente cliente) {
 		 Cliente clienteExistente = buscarClienteCPF(cliente.getCpf());
 
@@ -26,16 +32,16 @@ public class ClienteService {
 		    return cliente;
 		
 	}
-	
+	@Comando(descricao = "Buscar Cliente CPF", order = 2)
 	public Cliente buscarClienteCPF(String cpf) {
 		return banco.buscarPorCPF(cpf);
 	}
-	
+	@Comando(descricao = "Buscar Cliente ID", order = 3)
 	public Cliente buscarClienteId(Integer id) {
 		Cliente cliente=banco.buscarPorId(id);
 		return cliente;
 	}
-	
+	@Comando(descricao = "Atualizar Cliente",order = 4)
 	public void atualizarDadosCliente(Cliente cliente) {
 		Cliente entidade=buscarClienteId(cliente.getId());
 		if(entidade == null) {
@@ -46,6 +52,9 @@ public class ClienteService {
 		banco.atualizar(cliente);
 	}
 	
+	public ClienteService() {
+		super();
+	}
 	public void utualizarCliente(Cliente cliente) {
 		if(buscarClienteId(cliente.getId())==null) {
 			System.out.println("Cliente não registrado");
@@ -53,6 +62,7 @@ public class ClienteService {
 			banco.atualizar(cliente);
 		}
 	}
+	@Comando(descricao = "Listar Cliente",order = 5)
 	public void listar(){
 		List<Cliente> cliente=banco.listar();
 		
@@ -67,6 +77,7 @@ public class ClienteService {
 		cliente.setCashback(valorCashback);
 		banco.atualizar(cliente);
 	}
+	@Comando(descricao = "Deletar Cliente",order = 6)
 	public void deletar(Integer id) {
 		banco.deletar(id);
 	}

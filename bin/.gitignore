@@ -1,5 +1,2 @@
-/app/
-/entetiesDao/
-/model/
-/repository/
-/service/
+/command/
+/reflexao/

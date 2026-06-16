@@ -5,17 +5,17 @@ import java.util.List;
 import model.Categoria;
 import reflexao.ClasseTipo;
 import reflexao.Comando;
+import reflexao.Service;
 import repository.RepositoryBanco;
-import repository.RepositoryBancoCliente;
 @ClasseTipo(
 		descricao = "Categoria",
-		order = 1,
-		classe = RepositoryBanco.class
+		order = 1
+		)
+@Service(
+		nome = "Categoria"
 		)
 public class CategoriaService{
-	public CategoriaService() {
-		super();
-	}
+	
 	private RepositoryBanco<Categoria, Integer> banco;
 
 	public CategoriaService(RepositoryBanco<Categoria, Integer> banco) {

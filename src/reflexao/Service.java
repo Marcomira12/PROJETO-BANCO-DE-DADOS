@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface ClasseTipo {
-	String descricao();
-	int order();
+public @interface Service {
+	String nome();
 }

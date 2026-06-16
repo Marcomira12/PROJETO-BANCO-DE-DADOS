@@ -6,12 +6,14 @@ import java.util.List;
 import model.Cliente;
 import reflexao.ClasseTipo;
 import reflexao.Comando;
+import reflexao.Repositorio;
+import reflexao.Service;
 import repository.RepositoryBancoCliente;
 @ClasseTipo(
 		descricao = "Cliente",
-		order = 2,
-		classe = RepositoryBancoCliente.class
+		order = 2
 		)
+@Service(nome = "Cliente" )
 public class ClienteService {
 	private RepositoryBancoCliente banco;
 
@@ -52,9 +54,6 @@ public class ClienteService {
 		banco.atualizar(cliente);
 	}
 	
-	public ClienteService() {
-		super();
-	}
 	public void utualizarCliente(Cliente cliente) {
 		if(buscarClienteId(cliente.getId())==null) {
 			System.out.println("Cliente não registrado");

@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Categoria;
-
+import reflexao.Repositorio;
+@Repositorio(
+		nome = "Categoria"
+		)
 public class CategoriaRepositoryPostgres implements RepositoryBanco<Categoria, Integer> {
 	private ConexaoBanco banco;
 

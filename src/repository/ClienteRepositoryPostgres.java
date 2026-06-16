@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Cliente;
-
+import reflexao.Repositorio;
+@Repositorio(nome = "Cliente" )
 public class ClienteRepositoryPostgres implements RepositoryBancoCliente {
 	private ConexaoBanco banco;
 

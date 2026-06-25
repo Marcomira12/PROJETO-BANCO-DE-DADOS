@@ -3,11 +3,16 @@ package model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import reflexao.Obrigatorio;
+
 public class Cliente {
 	private Integer id;
+	@Obrigatorio
 	private String nome;
+	@Obrigatorio
 	private String cpf;
 	private BigDecimal cashback;
+	@Obrigatorio
 	private String email;
 	
 	public Cliente(Integer id, String nome, String email) {

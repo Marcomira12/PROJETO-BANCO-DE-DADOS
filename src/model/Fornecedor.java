@@ -2,11 +2,17 @@ package model;
 
 import java.time.LocalDate;
 
+import reflexao.Obrigatorio;
+
 public class Fornecedor {
 	private Integer id;
+	@Obrigatorio
     private String nome;
+	@Obrigatorio
     private String cnpj;
+	@Obrigatorio
     private String email;
+	@Obrigatorio
     private String telefone;
     private LocalDate data_cadastro;
 	public LocalDate getData_cadastro() {

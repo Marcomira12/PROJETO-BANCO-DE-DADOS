@@ -5,9 +5,12 @@ import java.util.List;
 import entetiesDao.ListarProdutos;
 import model.Fornecedor;
 import model.Produto;
+import reflexao.ClasseTipo;
+import reflexao.Service;
 import repository.RepositoryBanco;
 import repository.RepositoryBancoProduto;
-
+@ClasseTipo(descricao = "Produto",order = 5)
+@Service(nome = "Produto")
 public class ProdutoService {
 	
 	private RepositoryBancoProduto banco;

@@ -78,6 +78,7 @@ public class ClienteService {
 	}
 	@Comando(descricao = "Deletar Cliente",order = 6)
 	public void deletar(Integer id) {
+		listar();
 		banco.deletar(id);
 	}
 	

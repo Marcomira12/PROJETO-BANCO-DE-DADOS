@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Fornecedor;
-
+import reflexao.Repositorio;
+@Repositorio(nome = "Fornecedor")
 public class FornecedorRepositoryPostegres implements RepositoryBancoFornecedor {
 	private ConexaoBanco banco;
 

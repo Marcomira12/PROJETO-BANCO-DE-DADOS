@@ -1,8 +1,12 @@
 package model;
 
+import reflexao.Obrigatorio;
+
 public class Categoria {
 	private Integer id;
+	@Obrigatorio
     private String nome;
+	@Obrigatorio
     private String descricao;
 	public Integer getId() {
 		return id;

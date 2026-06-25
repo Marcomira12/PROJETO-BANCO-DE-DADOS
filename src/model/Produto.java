@@ -2,11 +2,16 @@ package model;
 
 import java.math.BigDecimal;
 
+import reflexao.Obrigatorio;
+
 public class Produto {
 	private Integer id;
+	@Obrigatorio
     private String nome;
     private Integer estoque;
+    @Obrigatorio
     private BigDecimal valorAtualProduto;
+    @Obrigatorio
     private Integer idCategoria;
     
     

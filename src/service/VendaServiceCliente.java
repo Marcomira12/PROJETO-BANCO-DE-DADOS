@@ -7,8 +7,12 @@ import model.Cliente;
 import model.Item_Venda;
 import model.Nota_Venda;
 import model.Produto;
+import reflexao.ClasseTipo;
+import reflexao.Comando;
+import reflexao.Service;
 import repository.NotaRepository;
-
+@ClasseTipo(descricao = "Realizar Venda",order = 4)
+@Service(nome = "Venda")
 public class VendaServiceCliente {
 	private NotaRepository<Nota_Venda, Item_Venda, Integer> notaRepository;
 	private ProdutoService produtoService;
@@ -31,6 +35,7 @@ public class VendaServiceCliente {
 	 * Será realizado validações através de metodos injetados via construtor de
 	 * produto.
 	 */
+	@Comando(descricao = "Adicionar item",order = 1)
 	public Nota_VendaDTO adicionarItem(Nota_VendaDTO dto, Integer produtoId, Integer quantidade) {
 		Produto produto = produtoService.buscarPorId(produtoId);
 		if (produto == null) {
@@ -58,7 +63,7 @@ public class VendaServiceCliente {
 		return dto;
 
 	}
-
+	@Comando(descricao = "Executar Venda",order = 2)
 	public Nota_Venda executarVenda(Nota_VendaDTO dto) {
 		if (dto == null) {
 			System.out.println("Dados insuficientes");

@@ -9,7 +9,8 @@ import java.util.List;
 
 import entetiesDao.ListarProdutos;
 import model.Produto;
-
+import reflexao.Repositorio;
+@Repositorio(nome = "Produto")
 public class ProdutoRepositoryPostegres implements RepositoryBancoProduto {
 	private ConexaoBanco banco;
 

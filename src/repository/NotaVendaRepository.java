@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 import model.Item_Venda;
 import model.Nota_Venda;
-
+import reflexao.Repositorio;
+@Repositorio(nome = "Venda")
 public class NotaVendaRepository implements NotaRepository<Nota_Venda,Item_Venda,Integer> {
 	private ConexaoBanco banco;
 	

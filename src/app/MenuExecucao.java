@@ -26,7 +26,7 @@ public class MenuExecucao {
             menuClasse.mostrarClasses(classes);
 
             System.out.print("Escolha: ");
-            int opcaoClasse = scanner.nextInt();
+            int opcaoClasse = Integer.parseInt(scanner.nextLine());
 
             if (opcaoClasse == 0) {
                 System.out.println("Sistema encerrado.");
@@ -54,7 +54,7 @@ public class MenuExecucao {
                 menuClasse.mostrarMetodos(metodos);
 
                 System.out.print("Escolha a ação: ");
-                int opcaoMetodo = scanner.nextInt();
+                int opcaoMetodo = Integer.parseInt(scanner.nextLine());
 
                 if (opcaoMetodo == 0) {
                     break;
@@ -67,7 +67,7 @@ public class MenuExecucao {
                     continue;
                 }
 
-                MenuCommand command = new MenuCommand(service, metodoEscolhido);
+                MenuCommand command = new MenuCommand(service, metodoEscolhido,scanner);
                 command.executar();
             }
 

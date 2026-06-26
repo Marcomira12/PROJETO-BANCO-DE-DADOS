@@ -2,6 +2,8 @@ package service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Scanner;
+
 import entetiesDao.Nota_VendaDTO;
 import model.Cliente;
 import model.Item_Venda;
@@ -36,8 +38,13 @@ public class VendaServiceCliente {
 	 * produto.
 	 */
 	@Comando(descricao = "Adicionar item",order = 1)
-	public Nota_VendaDTO adicionarItem(Nota_VendaDTO dto, Integer produtoId, Integer quantidade) {
-		Produto produto = produtoService.buscarPorId(produtoId);
+	public Nota_VendaDTO adicionarItem(Nota_VendaDTO dto, Scanner sc) {
+		produtoService.listar();
+		System.out.println("Digite o ID do Produto: ");
+		Produto produto = produtoService.buscarPorId(Integer.parseInt(sc.nextLine()));
+		System.out.println("Digite a quantidade: ");
+		Integer quantidade=Integer.parseInt(sc.nextLine());
+		
 		if (produto == null) {
 			System.out.println("Produto não encontrado");
 			return dto;
@@ -103,52 +110,70 @@ public class VendaServiceCliente {
 	 */
 	private Nota_Venda realizarVenda(Nota_VendaDTO dto) {
 
-		Cliente cliente = dto.getCliente();
+	    Cliente cliente = dto.getCliente();
+	    Nota_Venda nota = new Nota_Venda();
 
-		BigDecimal valorTotal = BigDecimal.ZERO;
+	    nota.setCliente(cliente);
+	    nota.setData(LocalDate.now());
 
-		Nota_Venda nota = new Nota_Venda();
-		nota.setCliente(cliente);
-		nota.setData(LocalDate.now());
-		for (Item_Venda item : dto.getItens()) {
-			if(item.getProduto().equals(null)) {
-				return null;
-			}
-			BigDecimal subtotal = item.getProduto().getValorAtualProduto()
-					.multiply(BigDecimal.valueOf(item.getQuantidade()));
-			valorTotal = valorTotal.add(subtotal);
-		}
-		
-		
-		nota.setValor_cashback_utilizado(cliente.getCashback());
-		nota.setValor_cashback_utilizado(nota.getValor_cashback_utilizado().min(valorTotal));
-		nota.setValorTotal(valorTotal.subtract(nota.getValor_cashback_utilizado()));
+	    BigDecimal valorBruto = calcularValorBruto(dto);
+	    BigDecimal cashbackUtilizado = calcularCashbackUtilizado(dto, valorBruto);
+	    BigDecimal valorFinal = valorBruto.subtract(cashbackUtilizado);
 
-		if (nota.getValor_cashback_utilizado().compareTo(BigDecimal.ZERO) == 0) {
-			nota.setValor_cashbakc_gerado(calcularCashback(nota.getValorTotal()));
-			cliente.setCashback(nota.getValor_cashbakc_gerado());
-		} else {
-			nota.setValor_cashbakc_gerado(BigDecimal.ZERO);
-			cliente.setCashback(BigDecimal.ZERO);
-		}
+	    nota.setValor_cashback_utilizado(cashbackUtilizado);
+	    nota.setValorTotal(valorFinal);
 
-		nota.setId(notaRepository.criarNota(nota));
-		nota.setItens(dto.getItens());
-		// momento critico para ser tratado por Therds, pois a execução deverá ocorrer
-		// simultaneamente
+	    if (cashbackUtilizado.compareTo(BigDecimal.ZERO) == 0) {
+	        nota.setValor_cashbakc_gerado(calcularCashback(valorFinal));
+	        cliente.setCashback(nota.getValor_cashbakc_gerado());
+	    } else {
+	        nota.setValor_cashbakc_gerado(BigDecimal.ZERO);
+	        cliente.setCashback(BigDecimal.ZERO);
+	    }
 
-		for (Item_Venda item : dto.getItens()) {
-			notaRepository.adicionarItem(nota.getId(), item);
-			item.getProduto().setEstoque(item.getQuantidade());
-			produtoService.baixarEstoque(item.getProduto());
-		}
+	    nota.setId(notaRepository.criarNota(nota));
+	    nota.setItens(dto.getItens());
 
-		clienteService.updateClienteCashback(cliente, cliente.getCashback());
+	    for (Item_Venda item : dto.getItens()) {
+	        notaRepository.adicionarItem(nota.getId(), item);
 
-		notaRepository.finalizar(nota.getId());
-		return nota;
+	        item.getProduto().setEstoque(item.getQuantidade());
+	        produtoService.baixarEstoque(item.getProduto());
+	    }
+
+	    clienteService.updateClienteCashback(cliente, cliente.getCashback());
+
+	    notaRepository.finalizar(nota.getId());
+
+	    return nota;
+	}
+	@Comando(descricao = "Calcular Valor da venda",order = 3)
+	public BigDecimal calcularValorBruto(Nota_VendaDTO dto) {
+	    BigDecimal valorTotal = BigDecimal.ZERO;
+
+	    for (Item_Venda item : dto.getItens()) {
+	        if (item.getProduto() == null) {
+	            throw new RuntimeException("Produto não encontrado no item da venda");
+	        }
+
+	        BigDecimal subtotal = item.getProduto().getValorAtualProduto()
+	                .multiply(BigDecimal.valueOf(item.getQuantidade()));
+
+	        valorTotal = valorTotal.add(subtotal);
+	    }
+
+	    return valorTotal;
 	}
 
+	public BigDecimal calcularCashbackUtilizado(Nota_VendaDTO dto, BigDecimal valorTotal) {
+	    BigDecimal cashbackCliente = dto.getCliente().getCashback();
+
+	    if (cashbackCliente == null) {
+	        return BigDecimal.ZERO;
+	    }
+
+	    return cashbackCliente.min(valorTotal);
+	}
 	// metodo responsável pela aplicação do CashBack.
 	private BigDecimal calcularCashback(BigDecimal valorVenda) {
 		return valorVenda.multiply(new BigDecimal("0.05"));

@@ -36,6 +36,9 @@ public class MenuCommand {
     }
 
 	private Object criarObjeto(Class<?> tipo) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		if (tipo == Scanner.class) {
+	        return new Scanner(System.in);
+	    }
 		if (tipo==String.class) {
 			System.out.println("Digite o Valor: ");
 			return scanner.nextLine(); 

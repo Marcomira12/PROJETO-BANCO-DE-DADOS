@@ -1,8 +1,9 @@
-package model;
+package entetiesDao;
 
+import model.Categoria;
 import reflexao.Obrigatorio;
 
-public class Categoria {
+public class CategoriaDTO {
 	@Obrigatorio
 	private Integer id;
 	@Obrigatorio
@@ -14,10 +15,6 @@ public class Categoria {
 	}
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	@Override
-	public String toString() {
-		return "Categoria [id=" + id + ", nome=" + nome + ", descricao=" + descricao + "]";
 	}
 	public String getNome() {
 		return nome;
@@ -31,14 +28,12 @@ public class Categoria {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	public Categoria() {
-		super();
+	public Categoria convertDTO(CategoriaDTO cat) {
+		Categoria categoria=new Categoria();
+		categoria.setId(cat.id);
+		categoria.setDescricao(cat.descricao);
+		categoria.setNome(cat.nome);
+		return categoria;
+		
 	}
-	public Categoria( String nome, String descricao) {
-		this.nome = nome;
-		this.descricao = descricao;
-	}
-    
-    
 }

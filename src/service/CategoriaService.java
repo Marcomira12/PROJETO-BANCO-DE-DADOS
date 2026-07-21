@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+import entetiesDao.CategoriaDTO;
 import model.Categoria;
 import reflexao.ClasseTipo;
 import reflexao.Comando;
@@ -31,17 +32,14 @@ public class CategoriaService{
 
 		banco.salvar(cat);
 	}
-	@Comando(
-			descricao = "buscar Categoria",
-			order = 2
-			)
+	
 	public Categoria buscarCategoria(Integer cat) {
 		Categoria categoria = banco.buscarPorId(cat);
 		return categoria;
 	}
 	@Comando(
 			descricao = "Listar Categoria",
-			order = 3
+			order = 2
 			)
 	public void listar() {
 		List<Categoria> categorias = banco.listar();
@@ -53,18 +51,19 @@ public class CategoriaService{
 	}
 	@Comando(
 			descricao = "Atualizar Categoria",
-			order = 4
+			order = 3
 			)
-	public void atualizar(Categoria cat) {
+	public void atualizar(CategoriaDTO cat) {
 		if(buscarCategoria(cat.getId())==null) {
 			System.out.println("ID da categoria não existente");
 			return;
 		}
-		banco.atualizar(cat);
+		
+		banco.atualizar(cat.convertDTO(cat));
 	}
 	@Comando(
 			descricao = "Deletar Categoria",
-			order = 5
+			order = 4
 			)	
 	public void deletar(Integer id) {
 		if(buscarCategoria(id)==null) {

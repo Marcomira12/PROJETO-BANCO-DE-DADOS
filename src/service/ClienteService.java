@@ -35,10 +35,16 @@ public class ClienteService {
 		
 	}
 	@Comando(descricao = "Buscar Cliente CPF", order = 2)
+	public void buscarCliente(String cpf) {
+		Cliente cliente=buscarClienteCPF(cpf);
+		System.out.println(cliente.toString());
+	}
+	
+	
 	public Cliente buscarClienteCPF(String cpf) {
 		return banco.buscarPorCPF(cpf);
 	}
-	@Comando(descricao = "Buscar Cliente ID", order = 3)
+	
 	public Cliente buscarClienteId(Integer id) {
 		Cliente cliente=banco.buscarPorId(id);
 		return cliente;
@@ -78,7 +84,6 @@ public class ClienteService {
 	}
 	@Comando(descricao = "Deletar Cliente",order = 6)
 	public void deletar(Integer id) {
-		listar();
 		banco.deletar(id);
 	}
 	

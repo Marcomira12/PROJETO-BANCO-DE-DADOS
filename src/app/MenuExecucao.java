@@ -8,14 +8,18 @@ public class MenuExecucao {
 
 	private final Scanner scanner ;
 	private final MetodoClasse menuClasse ;
-	ServiceFactory factory ;
-
+	private final ServiceFactory factory ;
+	private final ParametroResolver resolver;
 	
 
-    public MenuExecucao(Scanner scanner, MetodoClasse menuClasse, ServiceFactory factory) {
+	
+	
+	public MenuExecucao(Scanner scanner, MetodoClasse menuClasse, ServiceFactory factory, ParametroResolver resolver) {
+		super();
 		this.scanner = scanner;
 		this.menuClasse = menuClasse;
 		this.factory = factory;
+		this.resolver = resolver;
 	}
 
 	public void iniciar() {
@@ -67,7 +71,7 @@ public class MenuExecucao {
                     continue;
                 }
 
-                MenuCommand command = new MenuCommand(service, metodoEscolhido,scanner);
+                MenuCommand command = new MenuCommand(service, metodoEscolhido,scanner,resolver);
                 command.executar();
             }
 

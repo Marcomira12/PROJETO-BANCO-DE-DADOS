@@ -9,7 +9,8 @@ import repository.PostegresSQL;
 public class Menu {
 	public static void main(String[] args) {
 		ConexaoBanco banco=new PostegresSQL();
-		new MenuExecucao(new Scanner(System.in), new MetodoClasse(), new ServiceFactory(banco)).iniciar();
+		Scanner sc=new Scanner(System.in);
+		new MenuExecucao(sc, new MetodoClasse(), new ServiceFactory(banco),new ParametroResolver(sc)).iniciar();
 
 	}
 }

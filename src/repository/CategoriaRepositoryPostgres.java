@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entetiesDao.CategoriaDTO;
 import model.Categoria;
 import reflexao.Repositorio;
 @Repositorio(
@@ -91,7 +92,7 @@ public class CategoriaRepositoryPostgres implements RepositoryBanco<Categoria, I
 		String sql = """
 						    UPDATE public.categoria
 				SET nome_categoria=?, descricao=?
-				WHERE ?
+				WHERE cod_categoria=?
 						""";
 
 		try (PreparedStatement preparar = banco.getConnection().prepareStatement(sql)) {

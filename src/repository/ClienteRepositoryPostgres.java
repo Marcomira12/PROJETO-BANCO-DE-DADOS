@@ -110,9 +110,7 @@ public class ClienteRepositoryPostgres implements RepositoryBancoCliente {
 		}
 
 	}
-	private void resertIncrement(Integer id) {
-		
-	}
+	
 	@Override
 	public void deletar(Integer id) {
 		String sql = "DELETE FROM public.cliente WHERE id_cliente = ?";
@@ -121,7 +119,6 @@ public class ClienteRepositoryPostgres implements RepositoryBancoCliente {
 
 	        preparar.setInt(1, id);
 	        preparar.executeUpdate();
-	        resertIncrement(id);
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -130,7 +127,7 @@ public class ClienteRepositoryPostgres implements RepositoryBancoCliente {
 
 	@Override
 	public Cliente buscarPorCPF(String cpf) {
-		String sql = "SELECT id_cliente,nome_cliente,data_cadastro FROM cliente WHERE cpf_cliente = ?";
+		String sql = "SELECT id_cliente,nome_cliente,data_cadastro,saldo_cashback FROM cliente WHERE cpf_cliente = ?";
 
 		try (
 
@@ -145,6 +142,7 @@ public class ClienteRepositoryPostgres implements RepositoryBancoCliente {
 				Cliente cliente = new Cliente();
 				cliente.setId(rs.getInt("id_cliente"));
 				cliente.setNome(rs.getString("nome_cliente"));
+				cliente.setCashback(rs.getBigDecimal("saldo_cashback"));
 				cliente.setData(rs.getDate("data_cadastro").toLocalDate());
 
 				return cliente;
